@@ -1,0 +1,28 @@
+{
+
+  "manifest_version": 2,
+  "name": "sel2in_webExtnNotifyUrlWS",
+  "version": "1.0",
+
+  "description": "Send current page URL to a WS if current page URL matches ...",
+
+  "icons": {
+    "48": "res/icon1.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["pageWs.js"]
+    }
+  ],
+
+	"applications": {
+	"gecko": {
+    "id": "sel2in_webExtnNotifyUrlWS@sel2in.com",
+    "strict_min_version": "42.0",
+    "strict_max_version": "50.*"
+    
+	}
+	}
+}
