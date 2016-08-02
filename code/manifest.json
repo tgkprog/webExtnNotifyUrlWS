@@ -1,28 +1,39 @@
 {
 
+  "description": "WS",
   "manifest_version": 2,
   "name": "sel2in_webExtnNotifyUrlWS",
   "version": "1.0",
-
-  "description": "Send current page URL to a WS if current page URL matches ...",
-
+  "homepage_url": "https://github.com/tgkprog/d",
   "icons": {
     "48": "res/icon1.png"
   },
 
-  "content_scripts": [
-    {
-      "matches": ["*://*.youtube.com/*"],
-      "js": ["pageWs.js"]
+  "applications": {
+    "gecko": {
+      "id": "sel2in_webExtnNotifyUrlWS@sel2in.com",
+      "strict_min_version": "45.0"
     }
-  ],
+  },
 
-	"applications": {
-	"gecko": {
-    "id": "sel2in_webExtnNotifyUrlWS@sel2in.com",
-    "strict_min_version": "42.0",
-    "strict_max_version": "50.*"
-    
-	}
-	}
+  "permissions": [
+    "activeTab",
+    "bookmarks",
+    "tabs"
+  ],  
+
+  "browser_action": {
+    "default_icon":  "res/icon1.png",
+    "default_title": "WSSend"
+  },
+  
+   "background": {
+    "scripts": ["p.js"]
+  }
+  
+  
+
 }
+
+
+
