@@ -1,10 +1,10 @@
 {
 
-  "description": "WS",
+  "description": "Send current page URL to an web application's form.",
   "manifest_version": 2,
   "name": "sel2in_webExtnNotifyUrlWS",
   "version": "1.0",
-  "homepage_url": "https://github.com/tgkprog/d",
+  "homepage_url1": "https://github.com/tgkprog/d",
   "icons": {
     "48": "res/icon1.png"
   },
@@ -15,20 +15,22 @@
       "strict_min_version": "45.0"
     }
   },
-
+ "options_ui": {
+      "page": "op/options.html"
+  },
   "permissions": [
     "activeTab",
-    "bookmarks",
-    "tabs"
+    "tabs",  "storage"
+    
   ],  
 
   "browser_action": {
     "default_icon":  "res/icon1.png",
-    "default_title": "WSSend"
+    "default_title": "Page Url Send"
   },
   
    "background": {
-    "scripts": ["p.js"]
+    "scripts": ["notify.js"]
   }
   
   
