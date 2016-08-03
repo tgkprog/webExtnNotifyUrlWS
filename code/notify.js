@@ -1,4 +1,5 @@
 //send1() ; about:addons
+//about:debugging
 var opts = {};
 var currentTab;
 var oCurrCheck = null;
@@ -7,7 +8,7 @@ var hist = [];
 
 function send1() {
  try{
-		fillHerUp();
+		//fillHerUp();
 		console.log("send1 request" );
 		var t = true;
 		if(oCurrCheck !=  currentTab){
@@ -46,7 +47,8 @@ var ss = "Sending ...";
     // ...
   } else {
     // Unable to compute progress information since the total size is unknown
-	ss += " " + (++updateLvl); 
+	updateLvl = updateLvl + 1;
+	ss += " " + updateLvl; 
   }
   	chrome.storage.local.set({
 		status : ss
@@ -78,9 +80,9 @@ function transferCanceled(evt) {
 	histAdd("Canceled at " + new Date() + ", " + evt );
 }
 
-
-chrome.browserAction.onClicked.addListener(send1);
-
+console.log("The chrome.runtime."+ chrome.runtime);
+//chrome.browserAction.onClicked.addListener(send1);
+chrome.runtime.onMessage.addListener(send1);
 
 
 
@@ -133,7 +135,8 @@ function fillHerUp() {
 }
 
 function histAdd(ss) {
-	if(!opts.ehist){
+	console.log("e hist add 1");
+	if(opts.ehist === false){
 		hist = ["disabled"];		
 	}else{
 		hist.push(oCurrCheck.url + " "  + ss);
@@ -146,4 +149,5 @@ function histAdd(ss) {
 	chrome.storage.local.set({
 		histAr : hist
 	});
+	console.log("e hist add end");
 }

@@ -42,19 +42,29 @@ function restoreOptions() {
 	}
 	s = s + "(Status show :" + e1 + ")"
 	document.querySelector("#saveStat").innerHTML = s;
-	document.querySelector("#stat").innerHTML = res.status || "Status : (not yet used)(restore).";
-	if(res.ehist ===null || res.ehist === false){
-			document.querySelector("#hst").innerHTML = "Disabled";
-	}else if(res.histAr === null){
-		document.querySelector("#hst").innerHTML = "N/a";
+	document.querySelector("#stat").innerHTML = res.status || "Status : (not yet used)(status not set).";
+	/*var t = [];
+	t.push("as test value 1");
+	for(var i =0; i < t.length; i++){
+				document.querySelector("#hst1").innerHTML += i + " " + t[i] + "<br>";
+	}*/
+	if(res.histAr ===null || res.ehist === false){
+			document.querySelector("#hst1").innerHTML = "Disabled";
+			document.querySelector("#stat").innerHTML += "0";
+	}else if(res.histAr === null || (res.histAr + "") == "undefined" ){
+		document.querySelector("#stat").innerHTML += "1";
+		document.querySelector("#hst1").innerHTML = "N/a";
 	}else{
+		document.querySelector("#stat").innerHTML += "2";
 		var h =res.histAr;
-		document.querySelector("#hst").innerHTML = "Hist " + h.length + "<br>";
+		document.querySelector("#stat").innerHTML += " a";
+		document.querySelector("#hst1").innerHTML = "Hist " + h + "<br>";
+		document.querySelector("#stat").innerHTML += " c";
 		for(var i =0; i < h.length; i++){
-				document.querySelector("#hst").innerHTML += i + " " + h[i] + "<br>";
+				document.querySelector("#hst1").innerHTML += i + " " + h[i] + "<br>";
 		}
 	}
-	document.querySelector("#stat").innerHTML = res.status || "Status : (not yet used).";
+	
   });
 
 }
