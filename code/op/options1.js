@@ -77,8 +77,10 @@ function clearStorage(){
 	});
 	restoreOptions();
 }
-
-document.addEventListener('DOMContentLoaded', restoreOptions);
+function do2(){
+	setTimeout(restoreOptions, 1000)
+}
+document.addEventListener('DOMContentLoaded', do2);
 document.querySelector("form").addEventListener("submit", saveOptions);
 document.querySelector("#reLoad").addEventListener("click", restoreOptions);
 document.querySelector("#clr").addEventListener("click", clearStorage);

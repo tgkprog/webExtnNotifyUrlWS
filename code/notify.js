@@ -125,7 +125,7 @@ function fillHerUp() {
 		//opts= {};
 	chrome.storage.local.get(null, (res) => {
     opts.url = res.url || 'http://localhost:8080/urlConsumer/';
-	hist = res.histAr;
+	///hist = res.histAr;
 	if(res.ehist ===null || res.ehist || res.ehist == 'true'){
 		opts.ehist = true;
 	}else{
