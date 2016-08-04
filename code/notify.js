@@ -1,35 +1,41 @@
-//send1() ; about:addons
 //about:debugging
-var opts = {};
+//send1() ; about:addons
+var opts = {url : "aurl"};
 var currentTab;
 var oCurrCheck = null;
 var updateLvl = 0;
 var hist = [];
+var dbg1 = "";
 
 function send1() {
  try{
-		//fillHerUp();
-		console.log("send1 request" );
+	 fillHerUp();
+	console.log("send1 request" );
 		var t = true;
 		if(oCurrCheck !=  currentTab){
-				  chrome.storage.local.set({
-					status : "Starting at " + new Date() + ", " + evt;
+				chrome.storage.local.set({
+					status : "Starting at " + new Date() + "."
 					});
-				updateLvl = 0;
 				oCurrCheck = currentTab;
 				var oReq = new XMLHttpRequest();
+				oReq.addEventListener("load", load1);
 				oReq.addEventListener("progress", updateProgress);
 				oReq.addEventListener("load", transferComplete);
 				oReq.addEventListener("error", transferFailed);
 				oReq.addEventListener("abort", transferCanceled);
+				
+				//oReq.open("GET", "http://localhost:8080/urlConsumer/" + "?p=" + encodeURI(currentTab.url) + "&w=" +  + encodeURI(new Date()) + "&g=" + JSON.stringify(currentTab)
+				//+ "&v=6" +  opts.url);
 				var ss = opts.url + "?p=" + encodeURI(currentTab.url) + "&w=" +  + encodeURI(new Date());
 				if(opts.atabDet){
 					ss += "&g=" + JSON.stringify(currentTab);
 				}
+				ss += "&v=9_atabDet_" + opts.atabDet + "_url_" + opts.url + "_ehist_" + opts.ehist + ". " + (opts.ehist === false) + ". dbg1 " +  dbg1  + "." ;
 				oReq.open("GET", ss );
 				oReq.send(null);
-				console.log(debugCnt + " send1 " + window.location.href);
-				document.write(" " + new Date())
+				//console.log(debugCnt + " send1 " + window.location.href);
+				histAdd("Starting at " + new Date());
+				//document.write(" " + new Date())
 			}    
 	}catch(e){
 		console.log("send1 err" + e);
@@ -37,52 +43,50 @@ function send1() {
 	}
 }
 	
+	
+	function load1(s){
+		console.log("load done:" + s);
+}
+
 // progress on transfers from the server to the client (downloads)
 function updateProgress (oEvent) {
-var ss = "Sending ...";
   if (oEvent.lengthComputable) {
     var percentComplete = oEvent.loaded / oEvent.total;
-	ss += percentComplete + "%"
-
     // ...
   } else {
     // Unable to compute progress information since the total size is unknown
-	updateLvl = updateLvl + 1;
-	ss += " " + updateLvl; 
   }
-  	chrome.storage.local.set({
-		status : ss
-	});
-	histAdd(ss);
 }
 
 function transferComplete(evt) {
   console.log("The transfer is complete.");
-  chrome.storage.local.set({
-		status : "Last send complete at " + new Date();
-	});
+  var ss = "" + evt;
+  if(ss.indexOf("ProgressEvent") < 0){
 	histAdd("Complete at " + new Date());
+  }  
+  
 }
 
 function transferFailed(evt) {
   console.log("An error occurred while transferring the file." + evt);
-  chrome.storage.local.set({
-		status : "Last send failed at " + new Date() + ", " + evt;
-	});
-	histAdd("Failed at " + new Date() + ", " + evt );
+  var ss = "" + evt;
+  if(ss.indexOf("ProgressEvent") < 0){
+	histAdd("Failed at " + new Date() + " " + evt);
+  }
 }
 
 function transferCanceled(evt) {
   console.log("The transfer has been canceled by the user."+ evt);
-  chrome.storage.local.set({
-		status : "Last send canceled at " + new Date() + ", " + evt;
-	});
-	histAdd("Canceled at " + new Date() + ", " + evt );
+  
+  var ss = "" + evt;
+  if(ss.indexOf("ProgressEvent") < 0){
+	histAdd("Canceled at " + new Date() + " " + evt);
+  }  
 }
 
-console.log("The chrome.runtime."+ chrome.runtime);
-//chrome.browserAction.onClicked.addListener(send1);
-chrome.runtime.onMessage.addListener(send1);
+
+chrome.browserAction.onClicked.addListener(send1);
+
 
 
 
@@ -116,34 +120,59 @@ chrome.tabs.onActivated.addListener(updateTab);
 updateTab();
 
 
-
-
 function fillHerUp() {
  try{
 		//opts= {};
 	chrome.storage.local.get(null, (res) => {
     opts.url = res.url || 'http://localhost:8080/urlConsumer/';
-	opts.ehist = res.ehist || 1;
-	opts.estat = res.estat || 1;
-	opts.atabDet = res.atabDet || 1;	
+	hist = res.histAr;
+	if(res.ehist ===null || res.ehist || res.ehist == 'true'){
+		opts.ehist = true;
+	}else{
+		opts.ehist = false;
+	}
+	if(res.estat ===null || res.estat || res.estat == 'true'){
+		opts.estat = true;
+	}else{
+		opts.estat = false;
+	}	
+	if(res.atabDet ===null || res.atabDet || res.atabDet == 'true'){
+		opts.atabDet = true;
+	}else{
+		opts.atabDet = false;
+	}
 	//(res.savDate)
-  });		
+  });
+ 
 		
  }catch(e){
 		console.log("err filler her up:" + e);
+		var oReq1 = new XMLHttpRequest();								
+	    oReq1.open("GET", "http://localhost:8080/urlConsumer/?p=" + e);
+		oReq1.send(null);
  }
+ 
+  opts.url = "" + opts.url  
+  if(opts.url === "undefined" || opts.url === "aurl" ){
+	  opts.url = 'http://localhost:8080/urlConsumer/';
+	  opts.ehist = 1;
+	  opts.estat = 1;
+	  opts.atabDet = 1;
+  }
 }
 
 function histAdd(ss) {
 	console.log("e hist add 1");
 	if(opts.ehist === false){
-		hist = ["disabled"];		
+		hist = [];
+		dbg1 = "hist false";	
 	}else{
 		hist.push(oCurrCheck.url + " "  + ss);
-		while(hist.length > 10){
+		while(hist.length > 16){
 			hist.shift();
 		}
-		hist.push("last");
+		//hist.push("last");
+		dbg1 = "hist true len " + hist.length;
 	}
 	
 	chrome.storage.local.set({
