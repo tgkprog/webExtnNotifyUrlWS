@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Options for sel2in Page URL WS Notify</title>
+<style>
+.b1 {
+	border: 1px solid #6698FF
+}
+
+.o1 {
+	color: red
+}
+</style>
+</head>
+
+<body>
+
+<script src="common.js"></script>
+	
+
+
+
+<form id=f1>
+		<fieldset>
+			<legend>Options (version 3)</legend>
+
+			<p>
+				Url <input type="text" id="url" len=40 size=40
+				 value='sds <b> 433 http://ere.ce/?gr=34&k3_23- sds <b> 433 http://ere.ce/?gr=34&k3_23-<script>alert("sd");</script>'>
+			</p>
+			<textarea id=t1 rows =4 cols=110></textarea>
+			<br>
+			
+						<button id="b1" >Test 1</button>
+		</fieldset>
+	</form>
+	<div id='dbg3'>-</div>
+	<script>
+	document.querySelector("#b1").addEventListener("click", fn1);
+	function fn1(){
+		var ss = escapeHTML(document.forms[0].url.value)
+		document.forms[0].t1.value = ss;
+		document.querySelector("#dbg3").innerHTML = ss;
+	}
+	fn1();
+	</script>
+	
+	
+</body>

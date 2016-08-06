@@ -1,43 +1,76 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8">
-	<title>Options for sel2in Page URL WS Notify</title>
-	<style>
-	.b1 { border : 1px solid #6698FF}
-	.o1{color:red}
-	</style>
-  </head>
+<head>
+<meta charset="utf-8">
+<title>Options for sel2in Page URL WS Notify</title>
+<style>
+.b1 {
+	border: 1px solid #6698FF
+}
+
+.o1 {
+	color: red
+}
+</style>
+</head>
 
 <body>
-<h3><img src=../res/icon38.png> Page URL Change Notify</h3>
-  <form >
-    <fieldset>
-      <legend>Options (version 3)</legend>
-     
-      <p>Url <input type="text" id="url" len=40 size=40></p>
-	  <p>Enable history<input type="checkbox" id="ehist" > </p>
-	  <p>Enable Status<input type="checkbox" id="estat" ></p>
-	  <p>Send all tab details<input type="checkbox" id="atabDet" ></p>
-      <button type="submit">Save</button> <span id='saveStat'>Defaults from 2130, 03 Aug 16</span> <button id = "reLoad">Reload</button> | 
-	  <button id = "clr">Clear</button>
-    </fieldset>
-  </form>
-  
-  <div class="b1"><br>
-   <div id=stat>Status : (not yet used) Urg</div>
-  <h3>History</h3>
-  <span id="hst1">Hist here (static)</span>
-  <p><table><tr><td><img src=../res/info.png height=16 width=16></td><td> If history is enabled, will appear above.</td></tr>
-<tr><td></td><td>This plugin sends your current page URL to a server when you click its button.</td></tr></table>  </p>
-  </div>
-  </div>
-  
-   <div class="b1">Debug can ignore <div id='dbg2'>-</div></div>
-  
-  <script src="options1.js"></script>
-  
+	<h3>
+		<img src=../res/icon38.png> Page URL Change Notify
+	</h3>
+	<form>
+		<fieldset>
+			<legend>Options (version 3)</legend>
+
+			<p>
+				Url <input type="text" id="url" len=40 size=40>
+			</p>
+			<p>
+				Enable history<input type="checkbox" id="ehist">
+			</p>
+			<p>
+				Enable Status<input type="checkbox" id="estat">
+			</p>
+			<p>
+				Send all tab details<input type="checkbox" id="atabDet">
+			</p>
+			<button type="submit">Save</button>
+			<span id='saveStat'>Defaults from 2130, 03 Aug 16</span>
+			<button id="reLoad">Reload</button>
+			|
+			<button id="clr">Clear</button>
+		</fieldset>
+	</form>
+
+	<div class="b1">
+		<br>
+		<div id=stat>Status : (not yet used)</div>
+		<h3>History</h3>
+		<span id="hst1">Hist here (static)</span>
+		<p>
+		<table>
+			<tr>
+				<td><img src=../res/info.png height=16 width=16></td>
+				<td>If history is enabled, will appear above.</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>This plugin sends your current page URL to a server when
+					you click its button.</td>
+			</tr>
+		</table>
+		</p>
+	</div>
+	</div>
+
+	<div class="b1" style="color: white">
+		Debug can ignore
+		<div id='dbg2'>-</div>
+	</div>
+	<script src="../common.js"></script>
+	<script src="options1.js"></script>
+
 </body>
 
 </html>
