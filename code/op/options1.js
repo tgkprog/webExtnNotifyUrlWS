@@ -2,20 +2,27 @@
 function saveOptions(e) {
 	var e1 = document.querySelector("#estat").checked;
 	var d1 = new Date();
+	
 	chrome.storage.local.set({
 		url: document.querySelector("#url").value,
+		p1: document.querySelector("#p1").value,
+		p2: document.querySelector("#p2").value,
 		ehist: document.querySelector("#ehist").checked  ,
 		estat: e1 ,
 		atabDet: document.querySelector("#atabDet").checked ,
 		savDate: d1
 	});
 	document.querySelector("#saveStat").innerHTML = "Last saved (now) " + escapeHTML(d1) + " (Status show :" + escapeHTML(e1) + ")";
+	//console.log("p1 :" + document.querySelector("#p1").value + ", p2 :" + document.querySelector("#p2").value);
 }
 
 function restoreOptions() {
 	var e1 = 'true';
 	chrome.storage.local.get(null, (res) => {
 		document.querySelector("#url").value = res.url || 'http://localhost:8080/urlConsumer/';
+		document.querySelector("#p1").value = res.p1 || document.querySelector("#p1").value;
+		document.querySelector("#p2").value = res.p2 || document.querySelector("#p2").value;
+		
 		if(res.ehist ===null || res.ehist ){
 			document.querySelector("#ehist").checked = true;
 		}else{
@@ -29,7 +36,7 @@ function restoreOptions() {
 		}else{
 			document.querySelector("#estat").checked = "checked"; 
 		}
-		if(res.atabDet ===null || res.atabDet ){
+		if(res.atabDet ){
 			document.querySelector("#atabDet").checked = "checked";
 		}else{
 			document.querySelector("#atabDet").checked = "";
@@ -71,11 +78,17 @@ function restoreOptions() {
 }
 
 function clearStorage(){
-	chrome.storage.local.clear();
-	chrome.storage.clear();
+	/*chrome.storage.local.clear(function() {
+	    var error = chrome.runtime.lastError;
+	    if (error) {
+	        //console.error(error);
+	    }
+	});*/
+	
 	chrome.storage.local.set({
 		histAr : []
 	});
+	chrome.storage.local.clear();
 	restoreOptions();
 }
 function do2(){

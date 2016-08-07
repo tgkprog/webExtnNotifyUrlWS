@@ -18,25 +18,33 @@ function send1() {
 			});
 			oCurrCheck = currentTab;
 			var oReq = new XMLHttpRequest();
+			oReq.timeout = 8000;
 			oReq.addEventListener("load", load1);
 			oReq.addEventListener("progress", updateProgress);
 			oReq.addEventListener("load", transferComplete);
 			oReq.addEventListener("error", transferFailed);
 			oReq.addEventListener("abort", transferCanceled);
+			oReq.ontimeout = ontimeout;
 
 			// oReq.open("GET", "http://localhost:8080/urlConsumer/" + "?p="
 			// + encodeURI(currentTab.url) + "&w=" + + encodeURI(new Date())
 			// + "&g=" + JSON.stringify(currentTab)
 			// + "&v=6" + opts.url);
-			var ss = opts.url + "?p=" + encodeURI(currentTab.url) + "&w=" +  + encodeURI(new Date());
+			var p1 = opts.p1;
+			var p2 = opts.p2;
+			var ss =  "p=" + encodeURI(currentTab.url) + "&dt=" +  + encodeURI(new Date());
 			if(opts.atabDet){
-				ss += "&g=" + JSON.stringify(currentTab);
+				ss += "&dbg=" + JSON.stringify(currentTab);
 			}
-			ss += "&v=9_atabDet_" + opts.atabDet + "_url_" + opts.url + "_ehist_" + opts.ehist + ". " + (opts.ehist === false) + ". dbg1 " +  dbg1  + "." ;
-			oReq.open("GET", ss );
-			oReq.send(null);
-			// console.log(debugCnt + " send1 " + window.location.href);
-			histAdd("Starting at " + new Date());
+			ss += "&p1=" + p1 + "&p2=" + p2;
+			ss += "&v=10_atabDet_" + opts.atabDet + "_url_" + opts.url + "_ehist_" + opts.ehist + ". " + (opts.ehist === false) 
+			+ "._dbg2_" + encodeURI(dbg1)  + "." ;
+			ss += + "_p1_" +  p1 + "_p2_" +  p2; 
+			
+			oReq.open("GET", opts.url + "?" + ss);
+			oReq.send();
+			console.log(ss);
+			histAdd("At " + new Date());
 			// document.write(" " + new Date())
 		}    
 	}catch(e){
@@ -75,6 +83,17 @@ function transferFailed(evt) {
 	if(ss.indexOf("ProgressEvent") < 0){
 		histAdd("Failed at " + new Date() + " " + evt);
 	}
+}
+
+ontimeout
+
+function ontimeout(evt) {
+	console.log("timed out. "+ evt);
+
+	var ss = "" + evt;
+	if(ss.indexOf("ProgressEvent") < 0){
+		histAdd("Timeout at " + new Date() + " " + evt);
+	}  
 }
 
 function transferCanceled(evt) {
@@ -122,12 +141,21 @@ chrome.tabs.onActivated.addListener(updateTab);
 //update when the extension loads initially
 updateTab();
 
-
+function get1(s, d){
+	if(s === null || !s || s == 'undefined' || s === 'undefined'){
+		return d;
+	}else{
+		var ss=  escapeHTML(s);
+		return ss;
+	}
+}
 function fillHerUp() {
 	try{
 		// opts= {};
 		chrome.storage.local.get(null, (res) => {
-			opts.url = escapeHTML(res.url) || 'http://localhost:8080/urlConsumer/';
+			opts.url = get1(res.url, 'http://localhost:8080/urlConsumer/');
+			opts.p1 = get1(res.p1, 'def1');
+			opts.p2 = get1(res.p2 , 'def2');
 			// /hist = res.histAr;
 			if(res.ehist ===null || res.ehist || res.ehist == 'true'){
 				opts.ehist = true;
@@ -146,8 +174,8 @@ function fillHerUp() {
 			}
 			// (res.savDate)
 		});
-
-
+		
+		
 	}catch(e){
 		console.log("err filler her up:" + e);
 		// sendReqGetQuiet("fillher up err ", e)

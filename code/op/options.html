@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Options for sel2in Page URL WS Notify</title>
+<title>Options for sel2in page tab URL WS Notify</title>
 <style>
 .b1 {
 	border: 1px solid #6698FF
@@ -17,24 +17,28 @@
 
 <body>
 	<h3>
-		<img src=../res/icon38.png> Page URL Change Notify
+		<a  target="_blank"  href=https://github.com/tgkprog/webExtnNotifyUrlWS/wiki><img src=../res/icon38.png></a> Page Tab URL Change Notify <a href=http://sel2in.com target="_blank" ><img src=../res/ThemeProg.jpg height=80 width=143></a>
 	</h3>
 	<form>
 		<fieldset>
-			<legend>Options (version 3)</legend>
+			<legend>Options(version 4)</legend>
 
-			<p>
+			<p title="Url to send current tabs page tab URL to, with the address as param 'p'">
 				Url <input type="text" id="url" len=40 size=40>
 			</p>
-			<p>
-				Enable history<input type="checkbox" id="ehist">
+			<p title='Varios boolean options. Hisotry : to show sent URLs & success status in this options page. Whether to show status of last action on this page. Whether to send debug info (param "dbg") with page url in '>
+				Enable : history<input type="checkbox" id="ehist">
+			 Status<input type="checkbox" id="estat"> <span title='Sends debug data of all tab to the Url configured'>			
+				Debug <input type="checkbox" id="atabDet"></span>
 			</p>
-			<p>
-				Enable Status<input type="checkbox" id="estat">
+			<p title="Folder/ directory to save to. Can use linux slash if using java. If you leave out drive, will default to drive where process is run from. Handler decides what to do with this">
+				Save folder <input type="text" id="p1" value="/d/m/saved/" size=80>
 			</p>
-			<p>
-				Send all tab details<input type="checkbox" id="atabDet">
+			
+			<p  title="Folder/ directory for handler logs Or other info. Handler decides if it uses this or ignores Can use linux slash if using java. If you leave out drive, will default to drive where process is run from.">
+				Logs folder <input type="text" id="p2" value="/d/data/logs/urlHnldr/" size=80>
 			</p>
+			
 			<button type="submit">Save</button>
 			<span id='saveStat'>Defaults from 2130, 03 Aug 16</span>
 			<button id="reLoad">Reload</button>
@@ -45,9 +49,9 @@
 
 	<div class="b1">
 		<br>
-		<div id=stat>Status : (not yet used)</div>
+		Status : <span id=stat>(not yet used)</span>
 		<h3>History</h3>
-		<span id="hst1">Hist here (static)</span>
+		<span id="hst1">{Not yet used}</span>
 		<p>
 		<table>
 			<tr>
@@ -56,13 +60,25 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td>This plugin sends your current page URL to a server when
+				<td>This web extension sends your current tab's URL to a server when
 					you click its button.</td>
 			</tr>
 		</table>
 		</p>
 	</div>
 	</div>
+	
+	<div>Donate to support this web extension. For the days went in its initial development, on going support and new features.<br>
+	
+	
+<center><a href=https://www.paypal.me/sel2in/1 target="_blank" ><img src="../res/Paypal-donate.png" border="0" name="submit" alt="PayPal - Donate to Tushar(sel2in). Opens in a new tab. "></a>
+<!--  https://www.paypal.com/en_US/i/btn/btn_paynow_LG.gif -->
+
+
+
+</center>
+
+</div>
 
 	<div class="b1" style="color: white">
 		Debug can ignore
