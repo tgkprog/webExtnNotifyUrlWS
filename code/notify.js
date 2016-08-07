@@ -30,11 +30,11 @@ function send1() {
 			// + encodeURI(currentTab.url) + "&w=" + + encodeURI(new Date())
 			// + "&g=" + JSON.stringify(currentTab)
 			// + "&v=6" + opts.url);
-			var p1 = opts.p1;
-			var p2 = opts.p2;
-			var ss =  "p=" + encodeURI(currentTab.url) + "&dt=" +  + encodeURI(new Date());
+			var p1 = encodeURI(opts.p1);
+			var p2 = encodeURI(opts.p2);
+			var ss =  "p=" + encodeURI(escapeHTML(currentTab.url)) + "&dt=" + encodeURI(new Date());
 			if(opts.atabDet){
-				ss += "&dbg=" + JSON.stringify(currentTab);
+				ss += "&dbg=" + encodeURI(escapeHTML(JSON.stringify(currentTab)));
 			}
 			ss += "&p1=" + p1 + "&p2=" + p2;
 			ss += "&v=10_atabDet_" + opts.atabDet + "_url_" + opts.url + "_ehist_" + opts.ehist + ". " + (opts.ehist === false) 
@@ -142,10 +142,10 @@ chrome.tabs.onActivated.addListener(updateTab);
 updateTab();
 
 function get1(s, d){
-	if(s === null || !s || s == 'undefined' || s === 'undefined'){
+	if(s === null || !s || s === "undefined"){
 		return d;
 	}else{
-		var ss=  escapeHTML(s);
+		var ss = escapeHTML(s);
 		return ss;
 	}
 }
@@ -207,7 +207,7 @@ function histAdd(ss) {
 			hist.shift();
 		}
 		// hist.push("last");
-		dbg1 = "hist true len " + hist.length;
+		dbg1 = "hist true len :" + hist.length + ".";
 	}
 
 	chrome.storage.local.set({
