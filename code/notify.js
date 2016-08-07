@@ -18,18 +18,25 @@ function send1() {
 			});
 			oCurrCheck = currentTab;
 			var oReq = new XMLHttpRequest();
-			oReq.timeout = 8000;
-			oReq.addEventListener("load", load1);
+			oReq.timeout = 8000;			
 			oReq.addEventListener("progress", updateProgress);
-			oReq.addEventListener("load", transferComplete);
+			//oReq.addEventListener("load", transferComplete);
 			oReq.addEventListener("error", transferFailed);
 			oReq.addEventListener("abort", transferCanceled);
 			oReq.ontimeout = ontimeout;
-
-			// oReq.open("GET", "http://localhost:8080/urlConsumer/" + "?p="
-			// + encodeURI(currentTab.url) + "&w=" + + encodeURI(new Date())
-			// + "&g=" + JSON.stringify(currentTab)
-			// + "&v=6" + opts.url);
+			
+			oReq.onreadystatechange = function (aEvt) {
+				  if (oReq.readyState == 4) {
+				     if(oReq.status == 200){
+				    	 histAdd("Complete at " + new Date());
+				     }
+				     else{
+				    	 histAdd("Error " + oReq.status + ", Txt: " + oReq.statusText +  
+				 				", at "  + new Date());
+				     }
+				  }
+				};
+		
 			var p1 = encodeURI(opts.p1);
 			var p2 = encodeURI(opts.p2);
 			var ss =  "p=" + encodeURI(escapeHTML(currentTab.url)) + "&dt=" + encodeURI(new Date());
@@ -39,23 +46,17 @@ function send1() {
 			ss += "&p1=" + p1 + "&p2=" + p2;
 			ss += "&v=10_atabDet_" + opts.atabDet + "_url_" + opts.url + "_ehist_" + opts.ehist + ". " + (opts.ehist === false) 
 			+ "._dbg2_" + encodeURI(dbg1)  + "." ;
-			ss += + "_p1_" +  p1 + "_p2_" +  p2; 
+			ss += "_p1_" +  p1 + "_p2_" +  p2; 
 			
 			oReq.open("GET", opts.url + "?" + ss);
 			oReq.send();
-			console.log(ss);
+			//console.log(ss);
 			histAdd("At " + new Date());
-			// document.write(" " + new Date())
 		}    
 	}catch(e){
 		console.log("send1 err" + e);
 
 	}
-}
-
-
-function load1(s){
-	console.log("load done:" + s);
 }
 
 //progress on transfers from the server to the client (downloads)
@@ -71,8 +72,10 @@ function updateProgress (oEvent) {
 function transferComplete(evt) {
 	// console.log("The transfer is complete.");
 	var ss = "" + evt;
-	if(ss.indexOf("ProgressEvent") < 0){
-		histAdd("Complete at " + new Date());
+	//if(evt.lengthComputable && evt.loaded === evt.total)
+	{
+		histAdd("Complete at " + "comp  " + evt.lengthComputable + ", loaded " + evt.loaded + 
+				", total " +  evt.total + new Date());
 	}  
 
 }
@@ -85,11 +88,8 @@ function transferFailed(evt) {
 	}
 }
 
-ontimeout
-
 function ontimeout(evt) {
 	console.log("timed out. "+ evt);
-
 	var ss = "" + evt;
 	if(ss.indexOf("ProgressEvent") < 0){
 		histAdd("Timeout at " + new Date() + " " + evt);
@@ -98,18 +98,13 @@ function ontimeout(evt) {
 
 function transferCanceled(evt) {
 	console.log("The transfer has been canceled by the user."+ evt);
-
 	var ss = "" + evt;
 	if(ss.indexOf("ProgressEvent") < 0){
 		histAdd("Canceled at " + new Date() + " " + evt);
 	}  
 }
 
-
 chrome.browserAction.onClicked.addListener(send1);
-
-
-
 
 /*
  * Switches currentTab and currentBookmark to reflect the currently active tab
@@ -149,6 +144,7 @@ function get1(s, d){
 		return ss;
 	}
 }
+
 function fillHerUp() {
 	try{
 		// opts= {};
