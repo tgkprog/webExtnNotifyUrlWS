@@ -28,7 +28,7 @@ function send1() {
 			oReq.onreadystatechange = function (aEvt) {
 				  if (oReq.readyState == 4) {
 				     if(oReq.status == 200){
-				    	 histAdd("Complete at " + new Date());
+				    	 histAdd("Completed at " + new Date());
 				     }
 				     else{
 				    	 histAdd("Error " + oReq.status + ", Txt: " + oReq.statusText +  
@@ -145,14 +145,15 @@ function get1(s, d){
 	}
 }
 
+// Params from options or defaults
 function fillHerUp() {
 	try{
-		// opts= {};
+		
 		chrome.storage.local.get(null, (res) => {
 			opts.url = get1(res.url, 'http://localhost:8080/urlConsumer/');
 			opts.p1 = get1(res.p1, 'def1');
 			opts.p2 = get1(res.p2 , 'def2');
-			// /hist = res.histAr;
+			
 			if(res.ehist ===null || res.ehist || res.ehist == 'true'){
 				opts.ehist = true;
 			}else{
@@ -168,7 +169,7 @@ function fillHerUp() {
 			}else{
 				opts.atabDet = false;
 			}
-			// (res.savDate)
+			
 		});
 		
 		
