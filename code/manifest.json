@@ -1,5 +1,5 @@
 {
-	"description": "Send current page URL to an web application's form.",
+	"description": "Send current page URL to an web application's page/ API.",
 	"manifest_version": 2,
 	"name": "sel2in_webExtnNotifyUrlWS",
 	"version": "1.3",
